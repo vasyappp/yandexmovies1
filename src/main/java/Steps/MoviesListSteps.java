@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class MoviesListSteps {
@@ -41,6 +42,8 @@ public class MoviesListSteps {
     public void findMoviesByRating(String comparison, Double rating) {
         comparison = comparison.toLowerCase();
         List<WebElement> movies = new MoviesListPage().movies;
+
+        BaseSteps.getDriver().manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 
         switch (comparison) {
             case "больше или равно":
@@ -86,6 +89,8 @@ public class MoviesListSteps {
             default:
                 Assert.fail("Неправильный оператор сравнения рейтинга");
         }
+
+        BaseSteps.getDriver().manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 
         if (filteredMovies.isEmpty())
             Assert.fail("Не найдены фильмы с рейтингом " + comparison + " " + rating);
