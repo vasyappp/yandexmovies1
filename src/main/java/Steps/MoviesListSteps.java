@@ -24,18 +24,21 @@ public class MoviesListSteps {
 
     @Step("выбрана дата {0}")
     public void chooseDate(String date) {
-        BaseSteps.closePopup();
-
         MoviesListPage moviesListPage = new MoviesListPage();
 
         moviesListPage.chooseDateOptionButton.click();
         moviesListPage.selectDateOption(date);
     }
 
+    private Double getRating(WebElement element) {
+        WebElement ratingField = element.findElement(By.xpath
+                (".//div[@class = 'event-rating__value']"));
+
+        return Double.parseDouble(ratingField.getText());
+    }
+
     @Step("найдены фильмы с рейтингом {0} {1}")
     public void findMoviesByRating(String comparison, Double rating) {
-        BaseSteps.closePopup();
-
         comparison = comparison.toLowerCase();
         List<WebElement> movies = new MoviesListPage().movies;
 
@@ -44,10 +47,7 @@ public class MoviesListSteps {
                 filteredMovies = movies.stream()
                         .filter(f ->
                         { try {
-                            WebElement element = f.findElement(By.xpath
-                                    (".//div[@class = 'event-rating__value']"));
-                            Double movieRating = Double.parseDouble(element.getText());
-                            return movieRating >= rating;
+                            return getRating(f) >= rating;
                         } catch (Exception e) {return false;} })
                         .collect(Collectors.toList());
                 break;
@@ -55,10 +55,7 @@ public class MoviesListSteps {
                 filteredMovies = movies.stream()
                         .filter(f ->
                         { try {
-                            WebElement element = f.findElement(By.xpath
-                                    (".//div[@class = 'event-rating__value']"));
-                            Double movieRating = Double.parseDouble(element.getText());
-                            return movieRating > rating;
+                            return getRating(f) > rating;
                         } catch (Exception e) {return false;} })
                         .collect(Collectors.toList());
                 break;
@@ -66,10 +63,7 @@ public class MoviesListSteps {
                 filteredMovies = movies.stream()
                         .filter(f ->
                         { try {
-                            WebElement element = f.findElement(By.xpath
-                                    (".//div[@class = 'event-rating__value']"));
-                            Double movieRating = Double.parseDouble(element.getText());
-                            return movieRating == rating;
+                            return getRating(f).equals(rating);
                         } catch (Exception e) {return false;} })
                         .collect(Collectors.toList());
                 break;
@@ -77,10 +71,7 @@ public class MoviesListSteps {
                 filteredMovies = movies.stream()
                         .filter(f ->
                         { try {
-                            WebElement element = f.findElement(By.xpath
-                                    (".//div[@class = 'event-rating__value']"));
-                            Double movieRating = Double.parseDouble(element.getText());
-                            return movieRating <= rating;
+                            return getRating(f) <= rating;
                         } catch (Exception e) {return false;} })
                         .collect(Collectors.toList());
                 break;
@@ -88,10 +79,7 @@ public class MoviesListSteps {
                 filteredMovies = movies.stream()
                         .filter(f ->
                         { try {
-                            WebElement element = f.findElement(By.xpath
-                                    (".//div[@class = 'event-rating__value']"));
-                            Double movieRating = Double.parseDouble(element.getText());
-                            return movieRating < rating;
+                            return getRating(f) < rating;
                         } catch (Exception e) {return false;} })
                         .collect(Collectors.toList());
                 break;

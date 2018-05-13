@@ -17,6 +17,7 @@ public class BasePageObject {
 
     public BasePageObject() {
         PageFactory.initElements(BaseSteps.getDriver(), this);
+        BaseSteps.closePopup();
     }
 
     /**

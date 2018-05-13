@@ -7,8 +7,6 @@ public class PlaybillSteps {
 
     @Step("выбран пункт меню {0}")
     public void selectPlaybillOption(String optionName) {
-        BaseSteps.closePopup();
-
         new PlaybillPage().selectMenuPlaybillOption(optionName);
     }
 }

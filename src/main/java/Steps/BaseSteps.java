@@ -35,7 +35,7 @@ public class BaseSteps {
         }
 
         baseUrl = properties.getProperty("app.url");
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         driver.get(baseUrl);
     }
@@ -56,6 +56,7 @@ public class BaseSteps {
     public static void closePopup() {
         // Закрытие окна с подпиской по email-у
         try {
+            driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
             WebElement popUpCloseButton = driver.findElement(By.xpath
                     (".//button[contains(@class, 'subscribe-form-email__button_type_close')]"));
 
@@ -63,16 +64,21 @@ public class BaseSteps {
                 popUpCloseButton.click();
         } catch (Exception e) {
             System.out.println("No popup here");
+        } finally {
+            driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         }
 
         // Закрытие окна с еще какой-то рекламой
         try {
+            driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
             WebElement infoCloseButton = driver.findElement(By.xpath
                     (".//div[@class = 'tutorial-modal__close']"));
             if ((infoCloseButton != null) && (infoCloseButton.isDisplayed()))
                 infoCloseButton.click();
         } catch (Exception e) {
             System.out.println("No popup here");
+        } finally {
+            driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         }
     }
 }
